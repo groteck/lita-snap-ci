@@ -6,8 +6,8 @@ module SnapCi
       @body = MultiJson.load(response.body)
     end
 
-    def project
-
+    def to_message
+      @body['_embedded']['pipelines'].last['result']
     end
   end
 end

@@ -1,4 +1,4 @@
-require_relative '../../snap_ci_http'
+require_relative '../../snap_ci'
 
 module Lita
   module Handlers
@@ -7,19 +7,12 @@ module Lita
       config :token, type: String, required: true
       config :projects, type: Array, required: true
 
-      route(/^snap-ci\s+status$/,
-            :status,
+      route(/^snap-ci\s+report$/,
+            :all_projects,
             help: {'snap-ci' => 'display integration status' })
 
-      def status(response)
-        http_response = http.get
-        response.reply MultiJson.load(http_response.body)
-      end
-
-      private
-
-      def http
-        SnapCi::Http.new(config)
+      def all_projects(response)
+        response.reply ::SnapCi::ProjectList.new(config).to_message
       end
 
       Lita.register_handler(self)
