@@ -3,11 +3,14 @@ require 'multi_json'
 module SnapCi
   class Parser
     def initialize(response)
-      @body = MultiJson.load(response.body)
+      @pipeline = MultiJson.load(response.body)['_embedded']['pipelines'].last
     end
 
-    def to_message
-      @body['_embedded']['pipelines'].last['result']
+    def to_parameters
+      {
+        status: @pipeline['result'],
+        steps: @pipeline['stages']
+      }
     end
   end
 end

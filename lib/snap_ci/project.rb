@@ -13,8 +13,14 @@ module SnapCi
     end
 
     def to_message
-      fetch_pipelines.map do |pipeline|
-        Parser.new(pipeline).to_message
+      "Project: #{owner}/#{repository}:\n" +
+      fetch_pipelines.each_with_index.map do |pipeline, index|
+        parameters = Parser.new(pipeline).to_parameters
+
+        "  #{branches[index]}: #{parameters[:status]} (" +
+        parameters[:steps].map do |step|
+          "#{step["name"]}: #{step["result"]}"
+        end.join(", ") + ")"
       end.join("\n")
     end
 
