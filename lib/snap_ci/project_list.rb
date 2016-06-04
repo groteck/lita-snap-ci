@@ -5,9 +5,15 @@ module SnapCi
     attr_reader :list
 
     def initialize(args)
-      @list = args.projects.map do |project_info|
-        Project.new(project_info, args).to_message
-      end
+      @list = []
+      mutex = Mutex.new
+
+      args.projects.map do |project_info|
+        Thread.new do
+          project_message = Project.new(project_info, args).to_message
+          mutex.synchronize { @list << project_message }
+        end
+      end.each(&:join)
     end
 
     def to_message

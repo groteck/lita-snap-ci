@@ -21,9 +21,17 @@ module SnapCi
     private
 
     def fetch_pipelines
+      pipelines = []
+      mutex = Mutex.new
+
       uris.map do |uri|
-        @http.get(uri)
-      end
+        Thread.new do
+          pipeline = @http.get(uri)
+          mutex.synchronize { pipelines << pipeline }
+        end
+      end.each(&:join)
+
+      pipelines
     end
 
     def uris
