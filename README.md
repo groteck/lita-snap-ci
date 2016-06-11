@@ -1,6 +1,6 @@
 # lita-snap-ci
 
-Reports from [snap-ci]('https://snap-ci.com/').
+Reports from [snap-ci]('https://snap-ci.com/'). [![Build Status](https://snap-ci.com/groteck/lita-snap-ci/branch/master/build_image)](https://snap-ci.com/groteck/lita-snap-ci/branch/master)
 
 ## Installation
 
@@ -66,3 +66,22 @@ Project: oneorg/api:
   staging: passed (Integration: passed, deploy_staging: passed)
   master: passed (FastFeedback: passed, Integration: passed, deploy_prod: unknown)
 ```
+
+### Display the status of one repository.
+
+Chat input:
+
+`snap-ci project api` or `snap-ci project oneorg/api`
+
+Chat output:
+
+```
+Project: oneorg/api:
+  development: passed (Integration: passed, Brakeman: passed)
+  staging: passed (Integration: passed, deploy_staging: passed)
+  master: passed (FastFeedback: passed, Integration: passed, deploy_prod: unknown)
+```
+
+## License
+
+lita-snap-ci is released under the [MIT License](http://www.opensource.org/licenses/MIT).

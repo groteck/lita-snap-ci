@@ -13,36 +13,50 @@ module SnapCi
     end
 
     def to_message
-      "Project: #{owner}/#{repository}:\n" +
-      fetch_pipelines.each_with_index.map do |pipeline, index|
-        parameters = Parser.new(pipeline).to_parameters
-
-        "  #{branches[index]}: #{parameters[:status]} (" +
-        parameters[:steps].map do |step|
-          "#{step["name"]}: #{step["result"]}"
-        end.join(", ") + ")"
-      end.join("\n")
+      "Project: #{owner}/#{repository}:\n" + pipelines_to_s
     end
 
     private
 
     def fetch_pipelines
-      pipelines = []
+      pipelines = {}
       mutex = Mutex.new
 
       uris.map do |uri|
         Thread.new do
-          pipeline = @http.get(uri)
-          mutex.synchronize { pipelines << pipeline }
+          pipeline = @http.get(uri[:path])
+          mutex.synchronize { pipelines[uri[:branch]] = pipeline }
         end
       end.each(&:join)
 
       pipelines
     end
 
+    def pipelines_to_s
+      pipelines = []
+
+      fetch_pipelines.each do |branch, pipeline|
+        parameters = Parser.new(pipeline).to_parameters
+        pipelines << pipeline_to_s(branch, parameters)
+      end
+
+      pipelines.join("\n")
+    end
+
+    def pipeline_to_s(branch, parameters)
+      "  #{branch}: #{parameters[:status]} (#{steps_to_s(parameters[:steps])})"
+    end
+
+    def steps_to_s(steps)
+      steps.map { |step| "#{step["name"]}: #{step["result"]}" }.join(", ")
+    end
+
     def uris
       branches.map do |branch|
-        "/project/#{owner}/#{repository}/branch/#{branch}/pipelines"
+        {
+          branch: branch,
+          path: "/project/#{owner}/#{repository}/branch/#{branch}/pipelines"
+        }
       end
     end
   end
