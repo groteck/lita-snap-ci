@@ -1,7 +1,10 @@
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+
 require "lita-snap-ci"
 require "lita/rspec"
 require 'webmock/rspec'
-require "codeclimate-test-reporter"
+WebMock.disable_net_connect!(:allow => "codeclimate.com")
 
 # Load helpers
 require_relative 'support/fixture'
@@ -11,12 +14,9 @@ require_relative 'support/config'
 # was generated with Lita 4, the compatibility mode should be left disabled.
 Lita.version_3_compatibility_mode = false
 
-CodeClimate::TestReporter.start
-
 RSpec.configure do |c|
   c.include Fixture
   c.include Config
-
   c.before(:each) do
     stub_snap_requests
   end
