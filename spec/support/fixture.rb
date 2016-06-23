@@ -33,5 +33,8 @@ module Fixture
       to_return(status: 200, body: load_json_fixture('websites_develop'))
     stub_request(:get, "#{URL}otherorg/websites/branch/master/pipelines").
       to_return(status: 200, body: load_json_fixture('websites_master'))
+    # wrong_project example
+    stub_request(:get, "#{URL}wrong_org/wrong_project/branch/wrong_branch/pipelines").
+      to_return(status: 404, body: load_json_fixture('error'))
   end
 end

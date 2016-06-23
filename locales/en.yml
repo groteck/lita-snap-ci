@@ -8,3 +8,5 @@ en:
         project:
           command: snap-ci status <owner>/<repo> or <repo>
           desc: display a single project report with all the branches and status
+        parser:
+          error: Untracked branch in snap-ci

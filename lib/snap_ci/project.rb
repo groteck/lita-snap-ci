@@ -44,11 +44,22 @@ module SnapCi
     end
 
     def pipeline_to_s(branch, parameters)
-      "  #{branch}: #{parameters[:status]} (#{steps_to_s(parameters[:steps])})"
+      status_to_s(branch, parameters[:status]) + steps_to_s(parameters[:steps])
+    end
+
+    def status_to_s(branch, status)
+      "  #{branch}: #{status}"
     end
 
     def steps_to_s(steps)
-      steps.map { |step| "#{step["name"]}: #{step["result"]}" }.join(", ")
+      if !steps.nil?
+        " (#{steps
+              .map { |step| "#{step["name"]}: #{step["result"]}" }
+              .join(", ")
+        })"
+      else
+        ''
+      end
     end
 
     def uris
