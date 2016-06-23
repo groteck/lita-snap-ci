@@ -2,13 +2,10 @@
 
 Lita handler, to display the snap-ci pipelines of a project.
 
-|  Services  |
-|---  |
-|  [![Build Status](https://snap-ci.com/groteck/lita-snap-ci/branch/master/build_image)](https://snap-ci.com/groteck/lita-snap-ci/branch/master)  |
-|---  |
-|  [![Code Climate](https://codeclimate.com/github/groteck/lita-snap-ci/badges/gpa.svg)](https://codeclimate.com/github/groteck/lita-snap-ci)  |
-|---  |
-|  [![Test Coverage](https://codeclimate.com/github/groteck/lita-snap-ci/badges/coverage.svg)](https://codeclimate.com/github/groteck/lita-snap-ci/coverage)  |
+|  *Service*  |  *Status*  |
+|  Snap-ci  |  [![Build Status](https://snap-ci.com/groteck/lita-snap-ci/branch/master/build_image)](https://snap-ci.com/groteck/lita-snap-ci/branch/master)  |
+|  CodeClimate  |  [![Code Climate](https://codeclimate.com/github/groteck/lita-snap-ci/badges/gpa.svg)](https://codeclimate.com/github/groteck/lita-snap-ci)  |
+|  Test Coverage  |  [![Test Coverage](https://codeclimate.com/github/groteck/lita-snap-ci/badges/coverage.svg)](https://codeclimate.com/github/groteck/lita-snap-ci/coverage)  |
 
 ## Installation
 
