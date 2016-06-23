@@ -18,4 +18,16 @@ module Config
       }
     ]
   end
+
+  def load_wrong_config
+    registry.config.handlers.snap_ci.user = "snapUser"
+    registry.config.handlers.snap_ci.token = "Snap-ci-api-key"
+    registry.config.handlers.snap_ci.projects = [
+      {
+        owner: 'wrong_org',
+        repository: 'wrong_project',
+        branches: ['wrong_branch']
+      }
+    ]
+  end
 end

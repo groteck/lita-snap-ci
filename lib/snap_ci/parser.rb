@@ -1,9 +1,17 @@
 require 'multi_json'
+require_relative 'translations'
 
 module SnapCi
   class Parser
+    include Translations
+
+    ERROR_PARAMETERS = {
+      'result' => t('parser.error', { locale: :en }),
+      'stages' => nil
+    }
+
     def initialize(response)
-      @pipeline = MultiJson.load(response.body)['_embedded']['pipelines'].last
+      set_pipeline(MultiJson.load(response.body))
     end
 
     def to_parameters
@@ -11,6 +19,16 @@ module SnapCi
         status: @pipeline['result'],
         steps: @pipeline['stages']
       }
+    end
+
+    private
+
+    def set_pipeline(body)
+      @pipeline = if !body.has_value? 'Resource not found!'
+                    body['_embedded']['pipelines'].last
+                  else
+                    ERROR_PARAMETERS
+                  end
     end
   end
 end
